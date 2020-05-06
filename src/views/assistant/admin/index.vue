@@ -110,7 +110,7 @@ export default {
           },
           grid: {
             left: '3%',
-            right: '4%',
+            right: '24%',
             bottom: '3%',
             containLabel: true
           },
@@ -133,39 +133,7 @@ export default {
             {
               name: 'pe百分比',
               type: 'bar',
-              barWidth: '60%',
-              itemStyle: {
-                normal: {
-                  color: function(params) {
-                    // build a color map as your need.
-                    var colorList = [
-                      '#9BCA63',
-                      '#B5C334',
-                      '#27727B',
-                      '#FCCE10',
-                      '#C1232B',
-                      '#FE8463',
-                      '#9BCA63',
-                      '#FAD860',
-                      '#F3A43B',
-                      '#60C0DD',
-                      '#D7504B',
-                      '#C6E579',
-                      '#F4E001',
-                      '#F0805A',
-                      '#26C0C0'
-                    ]
-                    return colorList[params.dataIndex]
-                  },
-                  // 以下为是否显示，显示位置和显示格式的设置了
-                  label: {
-                    show: true,
-                    position: 'top',
-                    //                             formatter: '{c}'
-                    formatter: '{b}\n{c}'
-                  }
-                }
-              },
+              barWidth: '10%',
               data: yData,
               markLine: {
                 label: {
@@ -186,7 +154,7 @@ export default {
                     name: '卖出',
                     yAxis: 0.618,
                     lineStyle: {
-                      color: 'yellow'
+                      color: 'pink'
                     }
                   },
                   {
