@@ -20,15 +20,23 @@ export default {
     },
     height: {
       type: String,
-      default: '300px'
+      default: '800px'
     },
     echartOption: {
-      type: Object
+      type: Object,
+      default: function() {
+        return {}
+      }
     }
   },
   data() {
     return {
       chart: null
+    }
+  },
+  watch: {
+    echartOption: function() {
+      this.initChart()
     }
   },
   mounted() {

@@ -8,7 +8,8 @@ import request from '@/utils/request'
  */
 export function GetIndex(query) {
   return request({
-    url: 'http://localhost:8888/api/v1/index',
+    url: 'http://assistant.jadd.me/api/v1/index',
+    // url: 'http://localhost:8888/api/v1/index',
     method: 'get',
     params: query
   })
