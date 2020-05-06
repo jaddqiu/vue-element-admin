@@ -97,7 +97,7 @@ export default {
           } else {
             v = (current - medium) / (medium - chance)
           }
-          yData.push(v)
+          yData.push(v.toFixed(4))
         }
         this.echartOption = {
           color: ['#3398DB'],
