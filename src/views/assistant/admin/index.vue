@@ -9,6 +9,11 @@
         <bar-chart :echart-option="echartOption" />
       </div>
     </el-row>
+    <el-row v-for="option in indexChartOptions" :key="option.id" style="background:#fff;padding:16px 16px 0;margin-bottom:32px;">
+      <div class="chart-wrapper">
+        <bar-chart :echart-option="option" />
+      </div>
+    </el-row>
   </div>
 </template>
 
@@ -65,7 +70,8 @@ export default {
   data() {
     return {
       lineChartData: lineChartData.newVisitis,
-      echartOption: barChart
+      echartOption: barChart,
+      indexChartOptions: []
     }
   },
   created() {
@@ -91,15 +97,118 @@ export default {
           var medium = index.mediumPettm
           var danger = index.dangerPettm
           var chance = index.chancePettm
-          var v
+          var point = index.point
+          var dangerPoint = index.dangerPoint
+          var chancePoint = index.chancePoint
+          var v, maxPoint, minPoint // 当前指数的最小最大point
           if (current > medium) {
             v = (current - medium) / (danger - medium)
+            maxPoint = current > danger ? (point - chancePoint) / 5 + point : (dangerPoint - chancePoint) / 5 + dangerPoint
+            minPoint = current > danger ? chancePoint - (point - chancePoint) / 5 : chancePoint - (dangerPoint - chancePoint) / 5
           } else {
             v = (current - medium) / (medium - chance)
+            maxPoint = current < chance ? (dangerPoint - point) / 5 + dangerPoint : (dangerPoint - chancePoint) / 5 + dangerPoint
+            minPoint = current < chance ? point - (dangerPoint - point) / 5 : chancePoint - (dangerPoint - chancePoint) / 5
           }
+          maxPoint = (maxPoint / 10000).toFixed(1)
+          minPoint = (minPoint / 10000).toFixed(1)
+
           yData.push(v.toFixed(4))
+          this.indexChartOptions.push(
+            {
+              title: {
+                text: name,
+                subtext: index.date
+              },
+              color: ['#3398DB'],
+              tooltip: {
+                trigger: 'axis',
+                axisPointer: {
+                // 坐标轴指示器，坐标轴触发有效
+                  type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
+                }
+              },
+              grid: {
+                left: '3%',
+                right: '24%',
+                bottom: '3%',
+                containLabel: true
+              },
+              xAxis: [
+                {
+                  type: 'category',
+                  data: [name],
+                  axisTick: {
+                    alignWithLabel: true
+                  }
+                }
+              ],
+              yAxis: [
+                {
+                  type: 'value',
+                  max: maxPoint,
+                  min: minPoint
+                }
+              ],
+              series: [
+                {
+                  name: '指数点位',
+                  type: 'bar',
+                  barWidth: '10%',
+                  data: [index.point / 10000],
+                  markLine: {
+                    label: {
+                      show: true,
+                      formatter: '{b} : {c}'
+                    },
+                    data: [
+                      {
+                        name: '危险',
+                        yAxis: index.dangerPoint / 10000,
+                        lineStyle: {
+                          color: 'red'
+                        }
+                      },
+                      {
+                        name: '卖出',
+                        yAxis: index.decreasePoint / 10000,
+                        lineStyle: {
+                          color: 'pink'
+                        }
+                      },
+                      {
+                        name: '中位数',
+                        yAxis: index.mediumPoint / 10000,
+                        lineStyle: {
+                          color: 'black'
+                        }
+                      },
+                      {
+                        name: '买入',
+                        yAxis: index.increasePoint / 10000,
+                        lineStyle: {
+                          color: 'green'
+                        }
+                      },
+                      {
+                        name: '机会',
+                        yAxis: index.chancePoint / 10000,
+                        lineStyle: {
+                          color: 'blue'
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          )
         }
         this.echartOption = {
+          title: {
+            text: '整体pettm',
+            subtext: ''
+          },
           color: ['#3398DB'],
           tooltip: {
             trigger: 'axis',
@@ -138,9 +247,7 @@ export default {
               markLine: {
                 label: {
                   show: true,
-                  formatter: function(param) {
-                    return param.name
-                  }
+                  formatter: '{b}'
                 },
                 data: [
                   {
