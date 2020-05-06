@@ -1,5 +1,6 @@
 export default {
   route: {
+    assistant: '基金助手',
     dashboard: '首页',
     documentation: '文档',
     guide: '引导页',
@@ -65,6 +66,7 @@ export default {
     profile: '个人中心'
   },
   navbar: {
+    assistant: '基金助手',
     dashboard: '首页',
     github: '项目地址',
     logOut: '退出登录',
