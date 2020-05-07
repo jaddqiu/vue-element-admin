@@ -8,8 +8,8 @@ import request from '@/utils/request'
  */
 export function GetIndex(query) {
   return request({
-    url: 'http://assistant.jadd.me/api/v1/index',
-    // url: 'http://localhost:8888/api/v1/index',
+    url: process.env.NODE_ENV === 'production' ? 'http://fa.jadd.me/api/v1/latest' : 'http://localhost:8888/api/v1/latest',
+    // url: 'http://localhost:8888/api/v1/latest',
     method: 'get',
     params: query
   })

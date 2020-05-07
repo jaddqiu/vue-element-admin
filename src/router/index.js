@@ -79,7 +79,7 @@ export const constantRoutes = [
         path: 'assistant',
         component: () => import('@/views/assistant/index'),
         name: 'Dashboard',
-        meta: { title: 'assistant', icon: 'star', affix: true }
+        meta: { title: 'Fund Assistant', icon: 'star', affix: true }
       }
     ]
   },
